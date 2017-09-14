@@ -1,0 +1,618 @@
+MariaDB [mytestDB]> desc NFORMATION_SCHEMA .COLUMNS;
+ERROR 1146 (42S02): Table 'nformation_schema.columns' doesn't exist
+MariaDB [mytestDB]> desc INFORMATION_SCHEMA .COLUMNS;
++--------------------------+---------------------+------+-----+---------+-------+
+| Field                    | Type                | Null | Key | Default | Extra |
++--------------------------+---------------------+------+-----+---------+-------+
+| TABLE_CATALOG            | varchar(512)        | NO   |     |         |       |
+| TABLE_SCHEMA             | varchar(64)         | NO   |     |         |       |
+| TABLE_NAME               | varchar(64)         | NO   |     |         |       |
+| COLUMN_NAME              | varchar(64)         | NO   |     |         |       |
+| ORDINAL_POSITION         | bigint(21) unsigned | NO   |     | 0       |       |
+| COLUMN_DEFAULT           | longtext            | YES  |     | NULL    |       |
+| IS_NULLABLE              | varchar(3)          | NO   |     |         |       |
+| DATA_TYPE                | varchar(64)         | NO   |     |         |       |
+| CHARACTER_MAXIMUM_LENGTH | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_OCTET_LENGTH   | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_PRECISION        | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_SCALE            | bigint(21) unsigned | YES  |     | NULL    |       |
+| DATETIME_PRECISION       | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_SET_NAME       | varchar(32)         | YES  |     | NULL    |       |
+| COLLATION_NAME           | varchar(32)         | YES  |     | NULL    |       |
+| COLUMN_TYPE              | longtext            | NO   |     | NULL    |       |
+| COLUMN_KEY               | varchar(3)          | NO   |     |         |       |
+| EXTRA                    | varchar(27)         | NO   |     |         |       |
+| PRIVILEGES               | varchar(80)         | NO   |     |         |       |
+| COLUMN_COMMENT           | varchar(1024)       | NO   |     |         |       |
++--------------------------+---------------------+------+-----+---------+-------+
+20 rows in set (0.03 sec)
+
+MariaDB [mytestDB]> SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT
+    ->   FROM INFORMATION_SCHEMA.COLUMNS
+    ->   WHERE table_name = 'products'
+    -> AND table_schema = 'mytestDB'
+    -> ;
++--------------+-----------+-------------+----------------+
+| COLUMN_NAME  | DATA_TYPE | IS_NULLABLE | COLUMN_DEFAULT |
++--------------+-----------+-------------+----------------+
+| Code         | int       | NO          | NULL           |
+| Name         | varchar   | NO          | NULL           |
+| Price        | decimal   | NO          | NULL           |
+| Manufacturer | int       | YES         | NULL           |
++--------------+-----------+-------------+----------------+
+4 rows in set (0.03 sec)
+
+MariaDB [mytestDB]> SHOW databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| mytestd            |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| test01             |
++--------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> desc tables;
+ERROR 1146 (42S02): Table 'mytestdb.tables' doesn't exist
+MariaDB [mytestDB]> SELECT * from tables WHERE tables_schema='mytestDB';
+ERROR 1146 (42S02): Table 'mytestdb.tables' doesn't exist
+MariaDB [mytestDB]> SELECT * from  INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME='products';
++--------------------+-------------------+-----------------+--------------+------------+-----------------+
+| CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | TABLE_SCHEMA | TABLE_NAME | CONSTRAINT_TYPE |
++--------------------+-------------------+-----------------+--------------+------------+-----------------+
+| def                | mytestdb          | PRIMARY         | mytestdb     | products   | PRIMARY KEY     |
+| def                | mytestdb          | products_ibfk_1 | mytestdb     | products   | FOREIGN KEY     |
++--------------------+-------------------+-----------------+--------------+------------+-----------------+
+2 rows in set (0.03 sec)
+
+MariaDB [mytestDB]> use INFORMATION_SCHEMA;
+Database changed
+MariaDB [INFORMATION_SCHEMA]> SELECT * from  TABLES WHERE TABLE_SCHEMA='mytestDB';
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+| TABLE_CATALOG | TABLE_SCHEMA | TABLE_NAME    | TABLE_TYPE | ENGINE | VERSION | ROW_FORMAT | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH | MAX_DATA_LENGTH | INDEX_LENGTH | DATA_FREE | AUTO_INCREMENT | CREATE_TIME         | UPDATE_TIME | CHECK_TIME | TABLE_COLLATION   | CHECKSUM | CREATE_OPTIONS | TABLE_COMMENT |
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+| def           | mytestdb     | manu          | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 19:08:28 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | manufacturers | BASE TABLE | InnoDB |      10 | Compact    |          6 |           2730 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-08 20:54:34 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | pet           | BASE TABLE | InnoDB |      10 | Compact    |          8 |           2048 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-08 18:29:04 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | products      | BASE TABLE | InnoDB |      10 | Compact    |         12 |           1365 |       16384 |               0 |        16384 |         0 |           NULL | 2017-09-08 20:54:43 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | student       | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 18:19:59 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | student3      | BASE TABLE | InnoDB |      10 | Compact    |          6 |           2730 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-06 20:51:13 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | students1     | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 18:51:53 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | t             | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-06 18:43:32 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+8 rows in set (0.06 sec)
+
+MariaDB [mytestDB]> use INFORMATION_SCHEMA;
+Database changed
+MariaDB [INFORMATION_SCHEMA]> SELECT * from  TABLES WHERE TABLE_SCHEMA='mytestDB';
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+| TABLE_CATALOG | TABLE_SCHEMA | TABLE_NAME    | TABLE_TYPE | ENGINE | VERSION | ROW_FORMAT | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH | MAX_DATA_LENGTH | INDEX_LENGTH | DATA_FREE | AUTO_INCREMENT | CREATE_TIME         | UPDATE_TIME | CHECK_TIME | TABLE_COLLATION   | CHECKSUM | CREATE_OPTIONS | TABLE_COMMENT |
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+| def           | mytestdb     | manu          | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 19:08:28 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | manufacturers | BASE TABLE | InnoDB |      10 | Compact    |          6 |           2730 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-08 20:54:34 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | pet           | BASE TABLE | InnoDB |      10 | Compact    |          8 |           2048 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-08 18:29:04 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | products      | BASE TABLE | InnoDB |      10 | Compact    |         12 |           1365 |       16384 |               0 |        16384 |         0 |           NULL | 2017-09-08 20:54:43 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | student       | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 18:19:59 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | student3      | BASE TABLE | InnoDB |      10 | Compact    |          6 |           2730 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-06 20:51:13 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | students1     | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-07 18:51:53 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
+| def           | mytestdb     | t             | BASE TABLE | InnoDB |      10 | Compact    |          0 |              0 |       16384 |               0 |            0 |         0 |           NULL | 2017-09-06 18:43:32 | NULL        | NULL       | latin1_swedish_ci |     NULL |                |               |
++---------------+--------------+---------------+------------+--------+---------+------------+------------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+-------------+------------+-------------------+----------+----------------+---------------+
+8 rows in set (0.06 sec)
+
+MariaDB [INFORMATION_SCHEMA]> SELECT * from  TABLES WHERE TABLE_SCHEMA='mytestDB'/G
+    -> ;
+ERROR 1054 (42S22): Unknown column 'G' in 'where clause'
+MariaDB [INFORMATION_SCHEMA]> SELECT * from  TABLES WHERE TABLE_SCHEMA='mytestDB'\G
+*************************** 1. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: manu
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 0
+ AVG_ROW_LENGTH: 0
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-07 19:08:28
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 2. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: manufacturers
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 6
+ AVG_ROW_LENGTH: 2730
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-08 20:54:34
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 3. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: pet
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 8
+ AVG_ROW_LENGTH: 2048
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-08 18:29:04
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 4. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: products
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 12
+ AVG_ROW_LENGTH: 1365
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 16384
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-08 20:54:43
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 5. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: student
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 0
+ AVG_ROW_LENGTH: 0
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-07 18:19:59
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 6. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: student3
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 6
+ AVG_ROW_LENGTH: 2730
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-06 20:51:13
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 7. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: students1
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 0
+ AVG_ROW_LENGTH: 0
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-07 18:51:53
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+*************************** 8. row ***************************
+  TABLE_CATALOG: def
+   TABLE_SCHEMA: mytestdb
+     TABLE_NAME: t
+     TABLE_TYPE: BASE TABLE
+         ENGINE: InnoDB
+        VERSION: 10
+     ROW_FORMAT: Compact
+     TABLE_ROWS: 0
+ AVG_ROW_LENGTH: 0
+    DATA_LENGTH: 16384
+MAX_DATA_LENGTH: 0
+   INDEX_LENGTH: 0
+      DATA_FREE: 0
+ AUTO_INCREMENT: NULL
+    CREATE_TIME: 2017-09-06 18:43:32
+    UPDATE_TIME: NULL
+     CHECK_TIME: NULL
+TABLE_COLLATION: latin1_swedish_ci
+       CHECKSUM: NULL
+ CREATE_OPTIONS:
+  TABLE_COMMENT:
+8 rows in set (0.00 sec)
+MariaDB [INFORMATION_SCHEMA]> exit
+Bye
+
+702567@203-IMAC19 c:\xampp
+#  mysqldump --single--transaction -u root -p --databases mytestDB> c:/users/702567/downloads/myfile.txt;
+mysqldump: unknown option '--single--transaction'
+
+702567@203-IMAC19 c:\xampp
+#  mysqldump --single--transaction -u root -p --databases mytestDB>u:/users/702567/downloads/backup.sql
+The system cannot find the path specified.
+
+702567@203-IMAC19 c:\xampp
+#  mysqldump --single--transaction -u root -p --databases mytestDB>c:/users/702567/downloads/backup.sql
+mysqldump: unknown option '--single--transaction'
+
+702567@203-IMAC19 c:\xampp
+#  mysqldump --single-transaction -u root -p --databases mytestDB>c:/users/702567/downloads/backup.sql
+Enter password:
+
+702567@203-IMAC19 c:\xampp
+
+MariaDB [mytestDB]> CREATE TABLE pieces( code INTEGER AUTO_INCREMENT,name VARCHAR(20), PRIMARY KEY (code));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [mytestDB]> CREATE TABLE providers( code INTEGER AUTO_INCREMENT,name VARCHAR(20), PRIMARY KEY (code));
+Query OK, 0 rows affected (0.27 sec)
+MariaDB [mytestDB]> CREATE TABLE provides( code INTEGER AUTO_INCREMENT,pieces INT REFERENCES pieces(code),provider INT REFERENCES providers(code), price DOUBLE (10,2) check (price>10),PRIMARY KEY (code,pieces,provider));
+MariaDB [mytestDB]> select * from manufacturers;\
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | Sony            |
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
+|    6 | Winchester      |
++------+-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> select * from products;
++------+-----------------+-------+--------------+
+| Code | Name            | Price | Manufacturer |
++------+-----------------+-------+--------------+
+|    1 | Hard drive      |   240 |            5 |
+|    2 | Memory          |   120 |            6 |
+|    3 | ZIP drive       |   150 |            4 |
+|    4 | Floppy disk     |     5 |            6 |
+|    5 | Monitor         |   240 |            1 |
+|    6 | DVD drive       |   180 |            2 |
+|    7 | CD drive        |    90 |            2 |
+|    8 | Printer         |   270 |            3 |
+|    9 | Toner cartridge |    66 |            3 |
+|   10 | DVD burner      |   180 |            2 |
+|   11 | usb drive       |   200 |         NULL |
+|   12 | usb drive       |   300 |         NULL |
++------+-----------------+-------+--------------+
+12 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> SELECT p.name as Product_Name,p.price as Price,m.name as Manufacturers FROM products as p INNER JOIN manufacturers as m ON m.code = p.manufacturers;
+ERROR 1054 (42S22): Unknown column 'p.manufacturers' in 'on clause'
+MariaDB [mytestDB]> SELECT p.name as Product_Name,p.price as Price,m.name as Manufacturers FROM products as p INNER JOIN manufacturers as m ON m.code = p.manufacturer;
++-----------------+-------+-----------------+
+| Product_Name    | Price | Manufacturers   |
++-----------------+-------+-----------------+
+| Hard drive      |   240 | Fujitsu         |
+| Memory          |   120 | Winchester      |
+| ZIP drive       |   150 | Iomega          |
+| Floppy disk     |     5 | Winchester      |
+| Monitor         |   240 | Sony            |
+| DVD drive       |   180 | Creative Labs   |
+| CD drive        |    90 | Creative Labs   |
+| Printer         |   270 | Hewlett-Packard |
+| Toner cartridge |    66 | Hewlett-Packard |
+| DVD burner      |   180 | Creative Labs   |
++-----------------+-------+-----------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestDB]>  SELECT AVG(price),Manufacturer from products GROUP BY Manufacturer;
++------------+--------------+
+| AVG(price) | Manufacturer |
++------------+--------------+
+|   250.0000 |         NULL |
+|   240.0000 |            1 |
+|   150.0000 |            2 |
+|   168.0000 |            3 |
+|   150.0000 |            4 |
+|   240.0000 |            5 |
+|    62.5000 |            6 |
++------------+--------------+
+7 rows in set (0.00 sec)
+MariaDB [mytestDB]> SELECT AVG(Price), Manufacturer   FROM Products GROUP BY Manufacturer;
++------------+--------------+
+| AVG(Price) | Manufacturer |
++------------+--------------+
+|   250.0000 |         NULL |
+|   240.0000 |            1 |
+|   150.0000 |            2 |
+|   168.0000 |            3 |
+|   150.0000 |            4 |
+|   240.0000 |            5 |
+|    62.5000 |            6 |
++------------+--------------+
+7 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> SELECT AVG(price),m.name from products as p,Manufacturers as m where m.code = p.manufacturer GROUP BY Manufacturer;
++------------+-----------------+
+| AVG(price) | name            |
++------------+-----------------+
+|   240.0000 | Sony            |
+|   150.0000 | Creative Labs   |
+|   168.0000 | Hewlett-Packard |
+|   150.0000 | Iomega          |
+|   240.0000 | Fujitsu         |
+|    62.5000 | Winchester      |
++------------+-----------------+
+6 rows in set (0.04 sec)
+
+MariaDB [mytestDB]> SELECT m.name as Manufacturer from products as p,Manufacturers as m where m.code = p.manufacturer GROUP BY Manufacturer having AVG(p.price)>= 150;
++-----------------+
+| Manufacturer    |
++-----------------+
+| Sony            |
+| Creative Labs   |
+| Hewlett-Packard |
+| Iomega          |
+| Fujitsu         |
++-----------------+
+5 rows in set, 1 warning (0.00 sec)
+
+MariaDB [mytestDB]> SELECT name,price FROM products ORDER BY price ASC LIMIT 1 ;
++-------------+-------+
+| name        | price |
++-------------+-------+
+| Floppy disk |     5 |
++-------------+-------+
+1 row in set (0.03 sec)
+
+MariaDB [mytestDB]> SELECT m.name as Manufacturer from products as p,Manufacturers as m where m.code = p.manufacturer order by price desc limit 1;
++-----------------+
+| Manufacturer    |
++-----------------+
+| Hewlett-Packard |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestDB]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [mytestDB]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.03 sec)
+MariaDB [mytestDB]> desc provides;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| code     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| pieces   | int(11)      | NO   | PRI | NULL    |                |
+| provider | int(11)      | NO   | PRI | NULL    |                |
+| price    | double(10,2) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Pieces, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Pieces, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Pieces, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Pieces, Provider, Price) VALUES(4,'RBT',7);
+ERROR 1054 (42S22): Unknown column 'Piece' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Piece' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Piece' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Piece' in 'field list'
+ERROR 1054 (42S22): Unknown column 'Piece' in 'field list'
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [mytestDB]> INSERT INTO Provides(Pieces, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Pieces, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Pieces, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Pieces, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Pieces, Provider, Price) VALUES(2,'TNBC',14);
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [mytestDB]> select * from provides;
++------+--------+----------+-------+
+| code | pieces | provider | price |
++------+--------+----------+-------+
+|    1 |      3 |        0 | 50.00 |
+|    2 |      3 |        0 | 45.00 |
+|    3 |      4 |        0 |  5.00 |
+|    4 |      4 |        0 |  7.00 |
+|    5 |      1 |        0 | 10.00 |
+|    6 |      1 |        0 | 15.00 |
+|    7 |      2 |        0 | 20.00 |
+|    8 |      2 |        0 | 15.00 |
+|    9 |      2 |        0 | 14.00 |
++------+--------+----------+-------+
+9 rows in set (0.03 sec)
+
+MariaDB [mytestDB]> select * from pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> select * from providers;
++------+----------------------+
+| code | name                 |
++------+----------------------+
+|    1 | Clarke Enterprises   |
+|    2 | Susan Calvin Corp.   |
+|    3 | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> desc provides;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| code     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| pieces   | int(11)      | NO   | PRI | NULL    |                |
+| provider | int(11)      | NO   | PRI | NULL    |                |
+| price    | double(10,2) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+MariaDB [mytestDB]> drop table pieces;
+Query OK, 0 rows affected (0.16 sec)
+
+MariaDB [mytestDB]> drop table provides;
+Query OK, 0 rows affected (0.13 sec)
+
+MariaDB [mytestDB]> drop table providers;
+Query OK, 0 rows affected (0.08 sec)
+MariaDB [mytestDB]> CREATE TABLE Pieces(    Code Integer(10) Primary key,    Name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [mytestDB]> CREATE TABLE Providers(    Code VARCHAR(50) PRIMARY key NOT NULL,    Name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.19 sec)
+
+MariaDB [mytestDB]> CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+Query OK, 0 rows affected (0.19 sec)
+MariaDB [mytestDB]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestDB]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.98 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestDB]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mytestDB]> select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> select * from pieces;
++------+----------+
+| Code | Name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestDB]> select * from providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
